@@ -1,9 +1,9 @@
 import json
 import dateutil.parser
 
-print('\nLoading data from news_api_data.txt...')
+print('\nLoading data from data.txt...')
 # Load JSON data
-with open('news_api_data.txt','r') as file:
+with open('data.txt','r') as file:
     data = json.load(file)
 
 print('\nLoaded ', len(data['articles']), ' articles')

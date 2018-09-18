@@ -30,13 +30,13 @@ There are two options for you to work on this topic.
 
 We analysed a large number of APIs, hand-picked ones that suited our purpose and have collected ready-to-use dataset in a form of JSON.
 
-In case of News API, we collected English news articles and blog posts that contain the words `gender AND tech`, sorted by the newest articles. The exact query used to collect this data can be found in [`query_everything_endpoint.py`](./query_everything_endpoint.py), and you can find the data in [`news_api_data.txt`](./news_api_data.txt).
+In case of News API, we collected English news articles and blog posts that contain the words `gender AND tech`, sorted by the newest articles. The exact query used to collect this data can be found in [`news_api.py`](./news_api.py), and you can find the data in [`data.txt`](./data.txt).
 
-You're welcome to download the file (3.4MB) and explore the data. For a detailed explanation of the data structure, how to load the data from the file etc., pelase see the section [:three: Working with the Data](#working-with-the-data).
+You're welcome to download the file (~1MB) and explore the data. For a detailed explanation of the data structure, how to load the data from the file etc., pelase see the section [:three: Working with the Data](#working-with-the-data).
 
 ### Option 2 - Run custom queries to collect data
 
-You can also use the script [`custom_query.py`](./custom_query.py) provided in this directory as well to make your own custom queries, should you wish so.
+You can also use the script [`news_api.py`](./news_api.py) to make customised queries, should you wish so.
 
 We use [Requests](http://docs.python-requests.org/en/master/) to make HTTP GET requests to the News API. They actually provide a [Python client](https://github.com/mattlisiv/newsapi-python), which essentially is a wrapper around Requests, but I didn't particularly see the benefit of using it, partially because it doesn't support passing parameters as a dictionary, which would lead to repetitive codes :fearful: Also, this is a great opportunity to learn about Requests if you aren't familiar, as you can make HTTP to any APIs you can think of with Request under your toolbelt. It's a really powerful tool :)
 
@@ -64,9 +64,9 @@ Right, in order to start making queries, you need a bit of preparation to get yo
     │        .env  <-- Here!
     │        README.md
     │        custom_query.py
-    │        query_everything_endpoint.py
+    │        news_api.py
     │        load_data.py
-    │        news_api_data.txt
+    │        data.txt
     │        requirements.txt
     │      ...
     │
@@ -168,7 +168,7 @@ Here is an example of how you can load the file as a JSON object in Python.
 ```python
 import json
 
-with open('news_api_data.txt','r') as file:
+with open('data.txt','r') as file:
     data = json.load(file)
 ```
 
@@ -180,7 +180,7 @@ Now you can access each field as follows - the below uses `python-dateutil` pack
 import json
 import dateutil.parser
 
-with open('news_api_data.txt','r') as file:
+with open('data.txt','r') as file:
     data = json.load(file)
 
 for article in data['articles']:
