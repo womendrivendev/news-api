@@ -22,10 +22,8 @@ BASE_URL = 'https://newsapi.org/v2/everything'
 
 
 def run():
-    # Get parameter from stdin
+    # Get parameter from argv
     query = sys.argv[1]
-
-    print(query)
 
     # Construct parameters to send
 

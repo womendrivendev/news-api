@@ -4,8 +4,8 @@
 
 1. [Introduction](#one-introduction)
 2. [Instructions](#two-instructions)
-    - Option 1 - Use the dataset prepared by GenderPayGap mentors
-    - Option 2 - Run a script to collect additional data
+    - Option 1 - Use pre-collected dataset
+    - Option 2 - Run custom queries to collect data
         - Preparing your local environment
         - Customising a query - endpoint
         - Customising a query - parameters
@@ -26,15 +26,15 @@ You can [sign up here](https://newsapi.org/account) for a free developer plan wh
 
 There are two options for you to work on this topic.
 
-### Option 1 - Use precollected dataset
+### Option 1 - Use pre-collected dataset
 
 We analysed a large number of APIs, hand-picked ones that suited our purpose and have collected ready-to-use dataset in a form of JSON.
 
-In case of News API, we collected English news articles and blog posts that contain the words `pay gap`, sorted by the newest articles. The exact query used to collect this data can be found in [`generate_data.py`](./generate_data.py), and you can find the data in [`news_api_data.txt`](./news_api_data.txt).
+In case of News API, we collected English news articles and blog posts that contain the words `gender AND tech`, sorted by the newest articles. The exact query used to collect this data can be found in [`query_everything_endpoint.py`](./query_everything_endpoint.py), and you can find the data in [`news_api_data.txt`](./news_api_data.txt).
 
 You're welcome to download the file (3.4MB) and explore the data. For a detailed explanation of the data structure, how to load the data from the file etc., pelase see the section [:three: Working with the Data](#working-with-the-data).
 
-### Option 2 - Run a script to collect additional data
+### Option 2 - Run custom queries to collect data
 
 You can also use the script [`custom_query.py`](./custom_query.py) provided in this directory as well to make your own custom queries, should you wish so.
 
@@ -64,7 +64,7 @@ Right, in order to start making queries, you need a bit of preparation to get yo
     │        .env  <-- Here!
     │        README.md
     │        custom_query.py
-    │        generate_data.py
+    │        query_everything_endpoint.py
     │        load_data.py
     │        news_api_data.txt
     │        requirements.txt
@@ -111,7 +111,7 @@ The default parameters in `custom_query.py` are below. You can add/remove parame
 # custom_query.py
 
 params = {
-    'q': 'pay gap',
+    'q': 'gender AND tech',
     'apiKey': API_KEY
 }
 ```
@@ -132,26 +132,28 @@ The typical JSON response from News API looks like this:
         {
             "source": {
                 "id": null,
-                "name": "Forbes.com"
+                "name": "Insidehighered.com"
             },
-            "author": "Avivah Wittenberg-Cox, Contributor, Avivah Wittenberg-Cox, Contributor https://www.forbes.com/sites/avivahwittenbergcox/",
-            "title": "Turning #PayGaps into #Potential",
-            "description": "The UK legislates #PayGap reporting requirements while PEW Research publishes a new report about the #PromotionGap in the US. The push is on to #GenderBalance business.",
-            "url": "https://www.forbes.com/forbes/welcome/?toURL=https://www.forbes.com/sites/avivahwittenbergcox/2018/05/06/turning-paygaps-into-potential/&refURL=https://t.co/e7844fec73&referrer=https://t.co/e7844fec73",
-            "urlToImage": null,
-            "publishedAt": "2018-05-06T20:27:00Z"
+            "author": "Colleen Flaherty",
+            "title": "New analysis suggests women's success in STEM Ph.D. programs has much to do with having female peers, especially in their first year in graduate school",
+            "description": "Having female peers -- even just a few of them -- can increase a woman\u2019s odds of making it through her Ph.D. program in the natural sciences, technology, engineering or math, says a new working paper from the National Bureau of Economic Research. Based on a s\u2026",
+            "url": "https://www.insidehighered.com/news/2018/09/18/new-analysis-suggests-womens-success-stem-phd-programs-has-much-do-having-female",
+            "urlToImage": "https://www.insidehighered.com/sites/default/server_files/media/723520409-170667a.jpg",
+            "publishedAt": "2018-09-18T07:00:00Z",
+            "content": "Having female peers -- even just a few of them -- can increase a woman\u2019s odds of making it through her Ph.D. program in the natural sciences, technology, engineering or math, says a new working paper from the National Bureau of Economic Research. Based on a s\u2026 [+7864 chars]"
         },
         {
             "source": {
                 "id": null,
-                "name": "Forbes.com"
+                "name": "Qz.com"
             },
-            "author": "Avivah Wittenberg-Cox, Contributor, Avivah Wittenberg-Cox, Contributor https://www.forbes.com/sites/avivahwittenbergcox/",
-            "title": "Turning #PayGaps into #Potential",
-            "description": "The UK legislates #PayGap reporting requirements while PEW Research publishes a new report about the #PromotionGap in the US. The push is on to #GenderBalance business.",
-            "url": "https://www.forbes.com/forbes/welcome/?toURL=https://www.forbes.com/sites/avivahwittenbergcox/2018/05/06/turning-paygaps-into-potential/&ss=business&refURL=https://t.co/dbd29f1cbc&referrer=https://t.co/dbd29f1cbc",
-            "urlToImage": null,
-            "publishedAt": "2018-05-06T20:27:00Z"
+            "author": "Ananya Bhattacharya",
+            "title": "Overwhelming evidence why India Inc should hire and promote more women",
+            "description": "Women rarely make it to the top in Indian companies, but once they do, they stick. With an attrition rate of just 4%, women are\u2026",
+            "url": "https://qz.com/india/1392825/why-india-inc-should-hire-and-promote-more-women/",
+            "urlToImage": "https://cms.qz.com/wp-content/uploads/2018/09/RTR3E3E0-e1537216571463.jpg?quality=75&strip=all&w=1400",
+            "publishedAt": "2018-09-18T06:23:05Z",
+            "content": "Women rarely make it to the top in Indian companies, but once they do, they stick. With an attrition rate of just 4%, women are twice as likely to stay back in their organisations at the C-Suite level, according to a 2018 study by workplace diversity expert A\u2026 [+3163 chars]"
         }
     ]
 }
@@ -194,18 +196,19 @@ for article in data['articles']:
 
 `Console output:`
 
-```bash
-Source:  Tlnt.com
-Title:  The Gender Pay Gap Is Also an Opportunity Gap
-Written by:  Jingcong Zhao
-Published at: 2018-05-17 17:55:33+00:00
-URL:  https://www.tlnt.com/the-gender-pay-gap-is-also-an-opportunity-gap/
+```txt
+Source:  Insidehighered.com
+Title:  New analysis suggests women's success in STEM Ph.D. programs has much to do with having female peers, especially in their first year in graduate school
+Written by:  Colleen Flaherty
+Published at: 2018-09-18 07:00:00+00:00
+URL:  https://www.insidehighered.com/news/2018/09/18/new-analysis-suggests-womens-success-stem-phd-programs-has-much-do-having-female
 
-Source:  Www.gov.uk
-Title:  Transparency data: UKAEA Gender Pay Gap Report 2017
-Written by:  None
-Published at: 2018-04-04 13:52:13+00:00
-URL:  https://www.gov.uk/government/publications/ukaea-gender-pay-gap-report-2017
+
+Source:  Qz.com
+Title:  Overwhelming evidence why India Inc should hire and promote more women
+Written by:  Ananya Bhattacharya
+Published at: 2018-09-18 06:23:05+00:00
+URL:  https://qz.com/india/1392825/why-india-inc-should-hire-and-promote-more-women/
 
 ...
 ```
@@ -219,6 +222,8 @@ Please feel free to raise issues or pull requests as you see room for improvemen
 ### Misa Ogura
 
 :computer: Software Engineer @ [BBC R&D](https://www.bbc.co.uk/rd/blog)
+
+Co-founder @ [Women Driven Development](https://womendrivendev.org/)
 
 :rainbow: Organiser @ [AI Club for Gender Minorities](https://www.meetup.com/en-AU/ai-club/)
 

@@ -20,7 +20,7 @@ BASE_URL = 'https://newsapi.org/v2/everything'
 def run():
     # Construct parameters to send
     params = {
-        'q': 'gender pay gap',
+        'q': 'gender AND tech',
         'apiKey': API_KEY
     }
 
