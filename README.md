@@ -32,51 +32,43 @@ We analysed a large number of APIs, hand-picked ones that suited our purpose and
 
 In case of News API, we collected English news articles and blog posts that contain the words `gender AND tech`, sorted by the newest articles. The exact query used to collect this data can be found in [`news_api.py`](./news_api.py), and you can find the data in [`data.txt`](./data.txt).
 
-You're welcome to download the file (~1MB) and explore the data. For a detailed explanation of the data structure, how to load the data from the file etc., pelase see the section [:three: Working with the Data](#working-with-the-data).
+You're welcome to download the file (~1MB) and explore the data. For a detailed explanation of the data structure, how to load the data from the file etc., pelase see the section [Working with the Data](#working-with-the-data).
 
 ### Option 2 - Run custom queries to collect data
 
-You can also use the script [`news_api.py`](./news_api.py) to make customised queries, should you wish so.
+You can also use the script [`news_api.py`](./news_api.py) to make customised queries, should you wish so. It uses [Requests](http://docs.python-requests.org/en/master/) under the hood to make HTTP GET requests to the News API endpoints.
 
-We use [Requests](http://docs.python-requests.org/en/master/) to make HTTP GET requests to the News API. They actually provide a [Python client](https://github.com/mattlisiv/newsapi-python), which essentially is a wrapper around Requests, but I didn't particularly see the benefit of using it, partially because it doesn't support passing parameters as a dictionary, which would lead to repetitive codes :fearful: Also, this is a great opportunity to learn about Requests if you aren't familiar, as you can make HTTP to any APIs you can think of with Request under your toolbelt. It's a really powerful tool :)
-
-Right, in order to start making queries, you need a bit of preparation to get your local environment up and running.
+In order to start making queries, you need a bit of preparation to get your local environment up and running.
 
 #### :floppy_disk: Preparing your local environment
 
-1. Clone the repository: `$ git clone git@github.com:womendrivendev/news-api.git`
-2. Move into the `news-api` directory: `$ cd mentors-repo/news-api`
-3. Create a virtual environment to manage local dependencies: `$ virtualenv venv`
+1. Clone the repository
+
+    ```bash
+    $ git clone git@github.com:womendrivendev/news-api.git
+    ```
+
+2. Move into the `news-api` directory: `$ cd news-api`
+3. Create a virtual environment to manage local dependencies: `$ virtualenv venv` (make sure you have `virtualenv` installed: [documendation](https://virtualenv.pypa.io/en/stable/installation/))
 4. Activate the virtual enviromnent just created: `$ source venv/bin/activate`
 5. Install dependencies: `$ pip install -r requirements.txt`
 6. Obtain a unique API key from [newsapi.org](https://newsapi.org/)
-7. Create a `.env` file :exclamation:within:exclamation: the `news-api` directory
-    It won't work otherwise, unless you manually change the path to the `.env` file by modifying the `env_path` variable in `custom_query.py`. The file structure should look something like the diagram below.
+7. Create a `.env` file under the `news-api` directory
+    It won't work otherwise, unless you manually change the path to the `.env` file by modifying the `env_path` variable in `news_api.py`. The file structure should look something like the diagram below.
 
-    ```
-    mentors-repo  <-- Project root
-    │   README.md
-    │   LICENSE
-    │   .gitignore  <-- Any .env files are ignored here
-    │   ...
-    │
-    └─── news-api
-    │        .env  <-- Here!
-    │        README.md
-    │        custom_query.py
-    │        news_api.py
-    │        load_data.py
-    │        data.txt
-    │        requirements.txt
-    │      ...
-    │
-    └─── another-project
-    │        ...
-    │        ...
-    │   ...
+    ```txt
+    news-api/
+        .env  <-- Here!
+        .gitignore
+        README.md
+        news_api.py
+        load_data.py
+        data.txt
+        requirements.txt
+        ...
     ```
 
-    **:closed_book: N.B.** The `.env` file is ignored in `.gitignore` file in the root of the project. This means that it will not get tracked by `git`, and hence will not be checked into your commits. This is important for security purposes, as you _never_ want to expose your credentials to publically available spaces :no_good:
+    **:exclamation:IMPORTANT:exclamation:** The `.env` file is _ignored_ in `.gitignore` file in the root of the project. This means that it will not get tracked by `git`, and hence will not be checked into your commits. This is important for security purposes, as you _never_ want to expose your credentials to publically available spaces :no_good:
 
 8. Paste your API key to the `.env` file
 
@@ -86,48 +78,55 @@ Right, in order to start making queries, you need a bit of preparation to get yo
     API_KEY="YOUR API KEY"
     ```
 
-9. Now you should be all ready to fire up a query :boom: `$ python custom_query.py`
-    If everything goes well, you should see the response printed out in the console and you should have a file called `data.txt` which stores the JSON data from the News API :100:
+9. Now you're ready to make a customised query using `news_api.py` :boom:
 
-#### :wrench: Customising a query - endpoints
+    ```bash
+    Usage: news_api.py <endpoint> <output_filename>
 
-By default, `custom_query.py` makes a request to `/everthing` endpoint of News API. They provide two additional endpoints `/top-headlines` and `/sources`. [News API Endpoints](https://newsapi.org/docs/endpoints) explains what each endpoint provides.
+    e.g. $ python news_api.py everything test.txt
+    ```
 
-You can change the endpoint to query by editing `BASE_URL` constant inside `custom_query.py`.
+    You have to provide both `<endpoint>` and `<output_filename>`. In the next section I explain how to use it in detail.
 
-```python
-# custom_query.py
+#### :wrench: Customising a query
 
-BASE_URL = 'https://newsapi.org/v2/everything'
+The News API provides **two endpoints** for quering articles: `top-headlines` and `everything`. [News API Endpoints](https://newsapi.org/docs/endpoints) explains what each endpoint is best used for. Once you specify the `<endpoint>`, the script will enter an interactive mode for you to set query parameters.
+
+Depending on the endpoint you are using i.e. `top-headlines` or `everything`, there are different sets of parameters you can customise. You can see all the available parameters and their default values here: [News API Everything](https://newsapi.org/docs/endpoints/everything), [News API Top headlines](https://newsapi.org/docs/endpoints/top-headlines).
+
+Below is an example of using the script, where I set the endpoint to `everything`.
+
+```text
+$ python news_api.py everything test.txt
+
+Constructing query parameters for /everything endpoint...
+Documentation (default/available values etc.): https://newsapi.org/docs/endpoints/everything
+
+Press Enter to leave the parameter as a default value.
+Enter a value for "q":
+...
 ```
-
-#### :hammer: Customising a query - parameters
-
-You can also customise a query by changing parameters - this is where things get really exciting! So I encourage you to play around with it.
-
-The default parameters in `custom_query.py` are below. You can add/remove parameters by adding/removing key-value pairs in the `params` dictionary.
-
-```python
-# custom_query.py
-
-params = {
-    'q': 'gender AND tech',
-    'apiKey': API_KEY
-}
-```
-
-For each endpoint, there are a range of additional parameters you can specify, such as `pageSize`, `sources`, `from`, `to`, `language`, `sortBy` etc. For example, for the list of parameters available for the `/everything` endpoint, check out the `Request parameters` section on [News API Everything](https://newsapi.org/docs/endpoints/everything) :point_left:
 
 ## :three: Working with the Data
 
 ### :page_with_curl: Data structure
 
-The typical JSON response from News API looks like this:
+The script saves data in a JSON format.
+
+`custom_params`: a dictionary of parameters you customised
+`datetime`: date & time the query was made
+`total_articles`: number of articles collected
+`articles`: a list of articles that matched your query
 
 ```json
 {
-    "status": "ok",
-    "totalResults": 2,
+    "custom_params": {
+        "q": "gender AND technology",
+        "language": "en",
+        "pageSize": 100
+    },
+    "datetime": "2018-09-18 21:23:29.426768",
+    "total_articles": 2,
     "articles": [
         {
             "source": {
@@ -159,8 +158,6 @@ The typical JSON response from News API looks like this:
 }
 ```
 
-The exact structure of the JSON data is described in the `Response object` section on [News API Everything](https://newsapi.org/docs/endpoints/everything) :point_left:
-
 ### :open_file_folder: Loading data from a text file
 
 Here is an example of how you can load the file as a JSON object in Python.
@@ -186,8 +183,7 @@ with open('data.txt','r') as file:
 for article in data['articles']:
     published_datetime = dateutil.parser.parse(article['publishedAt'])
 
-    print('\n')
-    print('Source: ', article['source']['name'])
+    print('\nSource: ', article['source']['name'])
     print('Title: ', article['title'])
     print('Written by: ', article['author'])
     print('Published at:', published_datetime)
@@ -223,7 +219,7 @@ Please feel free to raise issues or pull requests as you see room for improvemen
 
 :computer: Software Engineer @ [BBC R&D](https://www.bbc.co.uk/rd/blog)
 
-Co-founder @ [Women Driven Development](https://womendrivendev.org/)
+:rainbow: Co-founder @ [Women Driven Development](https://womendrivendev.org/)
 
 :rainbow: Organiser @ [AI Club for Gender Minorities](https://www.meetup.com/en-AU/ai-club/)
 

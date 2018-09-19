@@ -112,7 +112,7 @@ def create_params_from_input(keys):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print('Usage: news_api.py <endpoint> <output_filename>')
+        print('\nUsage: news_api.py <endpoint> <output_filename>')
         print('e.g. news_api.py everything test.txt')
         exit(1)
 
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     output_filename = sys.argv[2]
 
     if os.path.exists(output_filename):
-        print('The file {} already exists. Please provide another filename.'.format(output_filename))
+        print('\nThe file {} already exists. Please provide another filename.'.format(output_filename))
         exit(1)
 
     params = {}
@@ -143,8 +143,15 @@ if __name__ == '__main__':
                 'country',
                 'pageSize']
 
+    else:
+        print('\nYou must specify the endpoint as either everything or top-headlines')
+        print('e.g. news_api.py everything test.txt')
+        exit(1)
+
     print('\nConstructing query parameters for /{} endpoint...'.format(endpoint))
-    print('Documentation (default/available values etc.): https://newsapi.org/docs/endpoints/{}\n'.format(endpoint))
+    print('Documentation (default/available values etc.): https://newsapi.org/docs/endpoints/{}'.format(endpoint))
+
+    print('\nPress Enter to leave the parameter as a default value.')
 
     params = create_params_from_input(keys)
 
