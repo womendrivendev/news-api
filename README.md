@@ -7,8 +7,7 @@
     - Option 1 - Use pre-collected dataset
     - Option 2 - Run custom queries to collect data
         - Preparing your local environment
-        - Customising a query - endpoint
-        - Customising a query - parameters
+        - Customising a query
 3. [Working with the Data](#three-working-with-the-data)
     - Data structure
     - Loading data from a text file
@@ -98,7 +97,7 @@ Depending on the endpoint you are using i.e. `top-headlines` or `everything`, th
 
 Below is an example of using the script, where I set the endpoint to `everything`.
 
-```text
+```txt
 $ python news_api.py everything test.txt
 
 Constructing query parameters for /everything endpoint...
@@ -173,28 +172,17 @@ with open('data.txt','r') as file:
 
 ### :mag: Access information within the data
 
-Now you can access each field as follows - the below uses `python-dateutil` package to parse the `publishedAt` attribute which is in ISO 8601 format.
+I've created another script ([`load_data.py`](./load_data.py)) to make a quick inspection of the data easier. It uses `python-dateutil` package to parse the `publishedAt` attribute which is in ISO 8601 format.
 
-```python
-import json
-import dateutil.parser
+```bash
+Usage: load_data.py <filename>
 
-with open('data.txt','r') as file:
-    data = json.load(file)
-
-for article in data['articles']:
-    published_datetime = dateutil.parser.parse(article['publishedAt'])
-
-    print('\nSource: ', article['source']['name'])
-    print('Title: ', article['title'])
-    print('Written by: ', article['author'])
-    print('Published at:', published_datetime)
-    print('URL: ', article['url'])
+e.g. $ python load_data.py data.txt
 ```
 
-`Console output:`
-
 ```txt
+$ python load_data.py data.txt
+
 Source:  Insidehighered.com
 Title:  New analysis suggests women's success in STEM Ph.D. programs has much to do with having female peers, especially in their first year in graduate school
 Written by:  Colleen Flaherty
@@ -215,7 +203,7 @@ URL:  https://qz.com/india/1392825/why-india-inc-should-hire-and-promote-more-wo
 
 Please feel free to raise issues or pull requests as you see room for improvement :pray:
 
-## :five: Authour
+## :five: Author
 
 ### Misa Ogura
 
