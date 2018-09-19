@@ -221,6 +221,4 @@ Please feel free to raise issues or pull requests as you see room for improvemen
 
 :rainbow: Co-founder @ [Women Driven Development](https://womendrivendev.org/)
 
-:rainbow: Organiser @ [AI Club for Gender Minorities](https://www.meetup.com/en-AU/ai-club/)
-
 [Github](https://github.com/MisaOgura) | [Twitter](https://twitter.com/misa_ogura) | [Medium](https://medium.com/@misaogura/latest)
