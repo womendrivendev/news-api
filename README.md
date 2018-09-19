@@ -30,7 +30,7 @@ There are two options for you to work on this topic.
 
 I've made some queries and collected a ready-to-use dataset in a JSON format, which you can find in [`data.txt`](./data.txt).
 
-It contains English news articles and blog posts that match the query term `(women OR gender OR minotiry OR gap) AND tech`, sorted by the newest articles.
+It contains English news articles and blog posts that match the query term `(women OR gender OR minotiry OR gap) AND tech`, sorted by the relevancy.
 
 You're welcome to download the file (~1MB) and explore the data. For example, you could use the link provided in each article to do a bit of web scraping, analyse what's being said with natural language processing tools and visualise the results.
 
