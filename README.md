@@ -115,8 +115,11 @@ Enter a value for "q":
 The script saves data in a JSON format.
 
 `custom_params`: a dictionary of parameters you customised
+
 `datetime`: date & time the query was made
+
 `total_articles`: number of articles collected
+
 `articles`: a list of articles that matched your query
 
 ```json
