@@ -103,7 +103,7 @@ $ python news_api.py everything test.txt
 Constructing query parameters for /everything endpoint...
 Documentation (default/available values etc.): https://newsapi.org/docs/endpoints/everything
 
-Press Enter to leave the parameter as a default value.
+Press Enter to use the default value for each parameter
 Enter a value for "q":
 ...
 ```

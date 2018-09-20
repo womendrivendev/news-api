@@ -151,7 +151,7 @@ if __name__ == '__main__':
     print('\nConstructing query parameters for /{} endpoint...'.format(endpoint))
     print('Documentation (default/available values etc.): https://newsapi.org/docs/endpoints/{}'.format(endpoint))
 
-    print('\nPress Enter to leave the parameter as a default value.')
+    print('\nPress Enter to use the default value for each parameter.')
 
     params = create_params_from_input(keys)
 
